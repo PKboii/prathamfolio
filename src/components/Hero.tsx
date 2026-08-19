@@ -73,7 +73,6 @@ export default function Hero() {
           {/* bottom strip */}
           <div className="absolute bottom-6 md:bottom-8 left-5 md:left-8 t-mono text-[10px] tracking-[0.18em] opacity-70 rise" style={{ animationDelay: "1.9s" }}>
             <p>SCROLL — THE CAMERA DOLLIES FORWARD</p>
-            <p className="mt-1.5 opacity-70">07 CHAPTERS · 07 LIVE WORLDS AHEAD</p>
           </div>
 
           {/* rotating scroll badge */}

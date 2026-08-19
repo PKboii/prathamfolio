@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Chapter, Project } from "../data/projects";
@@ -39,21 +39,12 @@ function PanelBody({ p, onDetails }: { p: Project; onDetails: (p: Project) => vo
       </div>
       <h3 className="t-display text-3xl md:text-[2.6rem] mt-4">{p.title}</h3>
       {p.jp && <p className="t-mono text-[11px] mt-1.5 opacity-60 tracking-[0.08em]">{p.jp}</p>}
-      <p className="mt-4 text-[15px] leading-relaxed max-w-md" style={{ color: "color-mix(in srgb, var(--ink) 82%, transparent)" }}>
+      <p className="mt-4 text-[14px] leading-relaxed max-w-md" style={{ color: "color-mix(in srgb, var(--ink) 82%, transparent)" }}>
         {p.description}
       </p>
-      <div className="mt-5 flex items-center gap-4">
-        <img
-          src={p.image}
-          alt={`${p.title} — still frame`}
-          loading="lazy"
-          className="w-28 aspect-[16/10] object-cover border"
-          style={{ borderColor: "var(--line)" }}
-        />
-        <div className="t-mono text-[9px] tracking-[0.16em] leading-relaxed" style={{ color: "var(--muted)" }}>
-          <p>LIVE — {hostOf(p.url)}</p>
-          <p className="mt-1">{p.tech.join(" · ").toUpperCase()}</p>
-        </div>
+      <div className="mt-4 t-mono text-[9px] tracking-[0.16em] leading-relaxed" style={{ color: "var(--muted)" }}>
+        <p>LIVE — {hostOf(p.url)}</p>
+        <p className="mt-1">{p.tech.join(" · ").toUpperCase()}</p>
       </div>
       <div className="mt-6 flex flex-wrap items-center gap-5">
         <a href={p.url} target="_blank" rel="noopener noreferrer" className="btn-cta t-mono text-[11px] tracking-[0.18em] px-5 py-3 relative z-0">
@@ -107,9 +98,9 @@ export default function ChapterSection({ chapter, projects, onDetails, onNav }: 
   const isMobile = useIsMobile();
   const reduced = useReducedMotion();
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const imgRefs = useRef<(HTMLDivElement | null)[]>([]);
   const introRef = useRef<HTMLDivElement>(null);
   const barsRef = useRef<HTMLDivElement>(null);
-  const railRef = useRef<HTMLDivElement>(null);
 
   useRevealObserver([isMobile]);
 
@@ -136,20 +127,22 @@ export default function ChapterSection({ chapter, projects, onDetails, onNav }: 
       tl.fromTo(introRef.current, { autoAlpha: 0, y: 46 }, { autoAlpha: 1, y: 0, ease: "none", duration: 0.09 }, lead + 0.03)
         .to(introRef.current, { autoAlpha: 0, y: -34, ease: "none", duration: 0.07 }, lead + 0.16);
     }
-    if (railRef.current) {
-      tl.fromTo(railRef.current, { autoAlpha: 0 }, { autoAlpha: 1, ease: "none", duration: 0.1 }, lead + 0.04);
-    }
-
     const start0 = lead + 0.24;
     const span = (1 - start0 - 0.03) / N;
     const inDur = Math.min(0.085, span * 0.45);
     const outDur = Math.min(0.075, span * 0.4);
     for (let i = 0; i < N; i++) {
       const el = panelRefs.current[i];
-      if (!el) continue;
+      const img = imgRefs.current[i];
       const s = start0 + i * span;
-      tl.fromTo(el, { autoAlpha: 0, y: 64 }, { autoAlpha: 1, y: 0, ease: "none", duration: inDur }, s)
-        .to(el, { autoAlpha: 0, y: -48, ease: "none", duration: outDur }, s + span - outDur);
+      if (el) {
+        tl.fromTo(el, { autoAlpha: 0, y: 64 }, { autoAlpha: 1, y: 0, ease: "none", duration: inDur }, s)
+          .to(el, { autoAlpha: 0, y: -48, ease: "none", duration: outDur }, s + span - outDur);
+      }
+      if (img) {
+        tl.fromTo(img, { autoAlpha: 0, y: 40, scale: 0.965 }, { autoAlpha: 1, y: 0, scale: 1, ease: "none", duration: inDur }, s)
+          .to(img, { autoAlpha: 0, y: -36, ease: "none", duration: outDur }, s + span - outDur);
+      }
     }
 
     return () => {
@@ -203,40 +196,52 @@ export default function ChapterSection({ chapter, projects, onDetails, onNav }: 
 
         {/* chapter intro — appears, holds, dissolves */}
         <div ref={introRef} className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none" style={{ opacity: 0, visibility: "hidden" }}>
-          <p className="t-mono text-[11px] tracking-[0.3em]" style={{ color: "var(--accent)" }}>
+          <p className="t-mono text-[11px] tracking-[0.34em]" style={{ color: "var(--accent)" }}>
             CHAPTER {chapter.num}
           </p>
-          <h2 className="t-display text-[clamp(3.4rem,10vw,9.5rem)] mt-4 text-center px-6">{chapter.name}</h2>
-          <p className="t-mono text-[11px] tracking-[0.24em] mt-5 opacity-60">{chapter.line}</p>
+          <h2 className="t-display text-[clamp(2.4rem,6.5vw,5.6rem)] mt-4 text-center px-6 leading-[0.95]">{chapter.name}</h2>
+          <p className="t-mono text-[10px] tracking-[0.24em] mt-4 opacity-60">{chapter.line}</p>
         </div>
 
-        {/* vertical rail */}
-        <div ref={railRef} className="absolute left-6 top-1/2 -translate-y-1/2 z-10 hidden lg:flex flex-col items-center gap-4 pointer-events-none" style={{ opacity: 0 }}>
-          <span className="t-mono text-[10px] tracking-[0.3em]" style={{ writingMode: "vertical-rl", color: "var(--muted)" }}>
-            {chapter.num} / {chapter.name}
-          </span>
-          <span className="w-px h-16" style={{ background: "var(--accent)" }} />
-        </div>
-
-        {/* project panels ride the camera */}
+        {/* project panels + companion stills ride the camera */}
         {Array.from({ length: panelCount }).map((_, i) => {
           const p = projects[i];
+          const panelSide = i % 2 === 0 ? "left" : "right";
+          const imgSide = i % 2 === 0 ? "right" : "left";
           return (
-            <div
-              key={p ? p.id : "showroom"}
-              className="absolute top-1/2 -translate-y-1/2 z-10 w-[min(31rem,44vw)]"
-              style={{ [i % 2 === 0 ? "left" : "right"]: "7vw" } as React.CSSProperties}
-            >
-              <div ref={(el) => { panelRefs.current[i] = el; }} style={{ opacity: 0, visibility: "hidden" }}>
-                {p ? <PanelBody p={p} onDetails={onDetails} /> : <ShowroomPanel onNav={onNav} />}
+            <Fragment key={p ? p.id : "showroom"}>
+              <div
+                className="absolute top-1/2 -translate-y-1/2 z-10 w-[min(30rem,42vw)]"
+                style={{ [panelSide]: "6vw" } as React.CSSProperties}
+              >
+                <div ref={(el) => { panelRefs.current[i] = el; }} style={{ opacity: 0, visibility: "hidden" }}>
+                  {p ? <PanelBody p={p} onDetails={onDetails} /> : <ShowroomPanel onNav={onNav} />}
+                </div>
               </div>
-            </div>
+              {p && (
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 z-[9] hidden lg:block w-[min(33rem,40vw)]"
+                  style={{ [imgSide]: "6vw" } as React.CSSProperties}
+                >
+                  <div ref={(el) => { imgRefs.current[i] = el; }} style={{ opacity: 0, visibility: "hidden" }}>
+                    <div className="overflow-hidden border" style={{ borderColor: "var(--line)" }}>
+                      <img
+                        src={p.image}
+                        alt={`${p.title} — still frame`}
+                        loading="lazy"
+                        className="w-full aspect-[16/10] object-cover"
+                      />
+                    </div>
+                    <div className="flex justify-between mt-2 t-mono text-[9px] tracking-[0.22em]" style={{ color: "var(--muted)" }}>
+                      <span>STILL — P.{p.num}</span>
+                      <span style={{ color: "var(--accent)" }}>{hostOf(p.url)}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </Fragment>
           );
         })}
-
-        <p className="absolute bottom-6 left-1/2 -translate-x-1/2 t-mono text-[9px] tracking-[0.26em] opacity-40">
-          KEEP SCROLLING — THE CAMERA CONTINUES
-        </p>
       </div>
     </section>
   );

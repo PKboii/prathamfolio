@@ -1,4 +1,4 @@
-import { CAPABILITIES, EMAIL, IMG, LEGACY_PORTFOLIO, STACKS } from "../data/projects";
+import { CAPABILITIES, EMAIL, LEGACY_PORTFOLIO, STACKS } from "../data/projects";
 import { useRevealObserver } from "../lib/hooks";
 
 export default function Finale() {
@@ -39,16 +39,26 @@ export default function Finale() {
         >
           <div className="max-w-[88rem] mx-auto px-5 md:px-10 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             <div className="lg:col-span-5 io-reveal">
-              <div className="overflow-hidden border" style={{ borderColor: "var(--line)" }}>
-                <img
-                  src={IMG.portrait}
-                  alt="Pratham — portrait"
-                  loading="lazy"
-                  className="w-full aspect-[4/5] object-cover"
-                />
+              <div
+                className="border flex flex-col items-center justify-center relative overflow-hidden"
+                style={{ borderColor: "var(--ink)", aspectRatio: "4/5" }}
+              >
+                <span className="absolute top-4 left-4 t-mono text-[9px] tracking-[0.22em]" style={{ color: "var(--muted)" }}>
+                  FRAME — 00:00
+                </span>
+                <span className="absolute top-4 right-4 t-mono text-[9px] tracking-[0.22em]" style={{ color: "var(--muted)" }}>
+                  04:59
+                </span>
+                <span className="t-display text-[9rem] leading-none select-none" style={{ color: "var(--accent)" }}>
+                  P
+                </span>
+                <span className="t-display text-2xl tracking-[0.35em] mt-3">KHINVSARA</span>
+                <span className="absolute bottom-4 left-1/2 -translate-x-1/2 t-mono text-[9px] tracking-[0.26em] whitespace-nowrap" style={{ color: "var(--muted)" }}>
+                  PORTRAIT — RESERVED FOR THE REAL ONE
+                </span>
               </div>
               <p className="t-mono text-[9px] tracking-[0.22em] mt-3" style={{ color: "var(--muted)" }}>
-                THE ENGINEER — PORTRAIT FRAME, REPEATED FROM FRAME 00:00
+                THE ENGINEER — BOOKENDS THE FILM
               </p>
             </div>
 

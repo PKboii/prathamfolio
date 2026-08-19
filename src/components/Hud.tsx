@@ -5,7 +5,6 @@ import type { Chapter } from "../data/projects";
 /** Film timecode + camera readout — the portfolio behaves like a screening. */
 export default function Hud({ chapter }: { chapter: Chapter }) {
   const tc = useRef<HTMLSpanElement>(null);
-  const cam = useRef<HTMLSpanElement>(null);
   const fill = useRef<HTMLDivElement>(null);
   const top = useRef<HTMLDivElement>(null);
 
@@ -19,8 +18,6 @@ export default function Hud({ chapter }: { chapter: Chapter }) {
       const ss = String(Math.floor(secs % 60)).padStart(2, "0");
       const ff = String(Math.floor((secs * 24) % 24)).padStart(2, "0");
       if (tc.current) tc.current.textContent = `TC 00:${mm}:${ss}:${ff}`;
-      if (cam.current)
-        cam.current.textContent = `CAM Z ${world.camZ < 0 ? "−" : "+"}${Math.abs(world.camZ).toFixed(1).padStart(5, "0")}`;
       if (fill.current) fill.current.style.transform = `scaleX(${p})`;
       if (top.current) top.current.style.transform = `scaleX(${p})`;
     };
@@ -44,16 +41,9 @@ export default function Hud({ chapter }: { chapter: Chapter }) {
         <div className="mt-1.5 opacity-90">
           CH.{chapter.num} — {chapter.name}
         </div>
-        <div className="mt-2 flex items-center gap-3">
-          <div className="w-40 h-px overflow-hidden" style={{ background: "color-mix(in srgb, var(--ink) 18%, transparent)" }}>
-            <div ref={fill} className="h-full w-full origin-left" style={{ background: "var(--accent)", transform: "scaleX(0)" }} />
-          </div>
-          <span ref={cam} className="opacity-60">CAM Z 0000.0</span>
+        <div className="mt-2 w-40 h-px overflow-hidden" style={{ background: "color-mix(in srgb, var(--ink) 18%, transparent)" }}>
+          <div ref={fill} className="h-full w-full origin-left" style={{ background: "var(--accent)", transform: "scaleX(0)" }} />
         </div>
-      </div>
-
-      <div className="fixed bottom-4 right-5 z-40 hidden md:block pointer-events-none t-mono text-[9px] tracking-[0.2em] opacity-45" style={{ color: "var(--ink)" }}>
-        SCROLL = CAMERA
       </div>
     </>
   );

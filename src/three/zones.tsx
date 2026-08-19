@@ -159,16 +159,19 @@ export function HeroZone() {
   });
   return (
     <group ref={ref}>
-      {/* portrait — the person, first and last image of the film */}
-      <FramedImage url={IMG.portrait} w={7.2} h={9} pos={[0, 0.4, -6]} frame="#0B0A07" />
-      {/* coral mark */}
-      <mesh ref={ring} position={[0, 0.4, -7.6]}>
-        <torusGeometry args={[5.4, 0.016, 8, 120]} />
-        <meshBasicMaterial color="#E4573D" transparent opacity={0.55} />
-      </mesh>
-      <mesh position={[0, 0.4, -6.18]}>
-        <planeGeometry args={[22, 15]} />
+      {/* dark stage wall — the person is introduced by typography, not a photo */}
+      <mesh position={[0, 0.4, -6.2]}>
+        <planeGeometry args={[26, 16]} />
         <meshBasicMaterial color="#0B0A07" />
+      </mesh>
+      {/* coral ring halo, spinning slowly in front of the dark wall */}
+      <mesh ref={ring} position={[0, 0.4, -6.0]}>
+        <torusGeometry args={[4.6, 0.018, 8, 140]} />
+        <meshBasicMaterial color="#E4573D" transparent opacity={0.65} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}>
+        <planeGeometry args={[60, 40]} />
+        <meshStandardMaterial color="#171310" roughness={1} />
       </mesh>
       {/* light veil the camera passes through — the hero becomes the world */}
       <mesh position={[0, 0.6, -6.5]}>
@@ -789,7 +792,25 @@ export function ReturnZone() {
         <planeGeometry args={[0.03, 16]} />
         <meshBasicMaterial color="#E4573D" transparent opacity={0.5} />
       </mesh>
-      <FramedImage url={IMG.portrait} w={2.7} h={3.38} pos={[0, 1.6, -259]} frame="#E4573D" />
+      {/* the doorway back to the person — a frame of coral light */}
+      <group position={[0, 1.5, -259]}>
+        <mesh position={[0, 1.5, 0]}>
+          <boxGeometry args={[2.3, 0.06, 0.06]} />
+          <meshStandardMaterial color="#E4573D" emissive="#E4573D" emissiveIntensity={0.9} />
+        </mesh>
+        <mesh position={[-1.12, 0, 0]}>
+          <boxGeometry args={[0.06, 3.06, 0.06]} />
+          <meshStandardMaterial color="#E4573D" emissive="#E4573D" emissiveIntensity={0.9} />
+        </mesh>
+        <mesh position={[1.12, 0, 0]}>
+          <boxGeometry args={[0.06, 3.06, 0.06]} />
+          <meshStandardMaterial color="#E4573D" emissive="#E4573D" emissiveIntensity={0.9} />
+        </mesh>
+        <mesh position={[0, 0, -0.1]}>
+          <planeGeometry args={[2.1, 2.9]} />
+          <meshStandardMaterial color="#241A12" emissive="#3A2317" emissiveIntensity={0.5} />
+        </mesh>
+      </group>
       <Dust count={70} area={[-5, 10, 0, 4.5, -244, 18]} color="#C9B79A" opacity={0.3} />
     </group>
   );
