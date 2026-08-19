@@ -149,25 +149,48 @@ function Dust({ count, area, color, opacity = 0.45, speed = 0.12 }: {
   );
 }
 
+/** Thin light posts flanking the travel corridors — transitions never read as empty. */
+export function CorridorPosts({
+  z,
+  count = 6,
+  gap = 3,
+  color = "#5C8AFF",
+  opacity = 0.4,
+}: {
+  z: number;
+  count?: number;
+  gap?: number;
+  color?: string;
+  opacity?: number;
+}) {
+  return (
+    <group>
+      {Array.from({ length: count }).map((_, i) => (
+        <group key={i} position={[0, 0, z - i * gap]}>
+          <mesh position={[-3.4, 1.5, 0]}>
+            <boxGeometry args={[0.045, 3, 0.045]} />
+            <meshBasicMaterial color={color} transparent opacity={opacity} />
+          </mesh>
+          <mesh position={[3.4, 1.5, 0]}>
+            <boxGeometry args={[0.045, 3, 0.045]} />
+            <meshBasicMaterial color={color} transparent opacity={opacity} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  );
+}
+
 /* ---------------- 00 · HERO ---------------- */
 
 export function HeroZone() {
   const ref = useWindow(0, 0.22);
-  const ring = useRef<THREE.Mesh>(null!);
-  useFrame((state) => {
-    if (ref.current.visible) ring.current.rotation.z = state.clock.elapsedTime * 0.05;
-  });
   return (
     <group ref={ref}>
       {/* dark stage wall — the person is introduced by typography, not a photo */}
       <mesh position={[0, 0.4, -6.2]}>
         <planeGeometry args={[26, 16]} />
         <meshBasicMaterial color="#0B0A07" />
-      </mesh>
-      {/* coral ring halo, spinning slowly in front of the dark wall */}
-      <mesh ref={ring} position={[0, 0.4, -6.0]}>
-        <torusGeometry args={[4.6, 0.018, 8, 140]} />
-        <meshBasicMaterial color="#E4573D" transparent opacity={0.65} />
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}>
         <planeGeometry args={[60, 40]} />
@@ -697,7 +720,7 @@ export function ArchZone() {
 /* ---------------- 05 · SHOWROOM — future products ---------------- */
 
 export function ShowroomZone() {
-  const ref = useWindow(0.88, 1.0);
+  const ref = useWindow(0.84, 1.0);
   const ringRef = useRef<THREE.Mesh>(null!);
   useFrame((state) => {
     if (!ref.current.visible) return;

@@ -43,7 +43,7 @@ export const CHAPTERS: Chapter[] = [
     name: "ME",
     line: "YOU MEET THE PERSON",
     theme: { bg: "#14120E", ink: "#F3EFE7", muted: "#97907F", accent: "#E4573D" },
-    vh: 200,
+    vh: 180,
   },
   {
     id: "experimental",
@@ -51,7 +51,7 @@ export const CHAPTERS: Chapter[] = [
     name: "EXPERIMENTAL",
     line: "WHAT I EXPERIMENT WITH",
     theme: { bg: "#EFEAE0", ink: "#1B1812", muted: "#6E675A", accent: "#5E8A6F" },
-    vh: 300,
+    vh: 270,
   },
   {
     id: "digital",
@@ -59,7 +59,7 @@ export const CHAPTERS: Chapter[] = [
     name: "DIGITAL WORLDS",
     line: "THE WORLDS I BUILD",
     theme: { bg: "#0E0E12", ink: "#E9E7E2", muted: "#7A7A88", accent: "#5C8AFF" },
-    vh: 400,
+    vh: 320,
   },
   {
     id: "brands",
@@ -67,7 +67,7 @@ export const CHAPTERS: Chapter[] = [
     name: "BRANDS",
     line: "THE BRANDS I SHAPE",
     theme: { bg: "#F1E9DC", ink: "#221B12", muted: "#8A7B66", accent: "#C58A3B" },
-    vh: 300,
+    vh: 215,
   },
   {
     id: "architecture",
@@ -75,7 +75,7 @@ export const CHAPTERS: Chapter[] = [
     name: "ARCHITECTURE",
     line: "THE SPACES I DESIGN",
     theme: { bg: "#ECE6DA", ink: "#1E1A13", muted: "#7D7466", accent: "#B99A52" },
-    vh: 300,
+    vh: 205,
   },
   {
     id: "showroom",
@@ -83,7 +83,7 @@ export const CHAPTERS: Chapter[] = [
     name: "SHOWROOM",
     line: "THE PRODUCTS I PRESENT",
     theme: { bg: "#F4F1EA", ink: "#17150F", muted: "#8B857A", accent: "#7C93A8" },
-    vh: 240,
+    vh: 250,
   },
   {
     id: "work",

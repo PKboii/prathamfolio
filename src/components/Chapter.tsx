@@ -20,10 +20,10 @@ interface Props {
  */
 const LEADS: Record<string, number> = {
   experimental: 0,
-  digital: 0.22,
-  brands: 0.18,
-  architecture: 0.12,
-  showroom: 0.08,
+  digital: 0.1,
+  brands: 0.1,
+  architecture: 0.06,
+  showroom: 0.04,
 };
 
 function hostOf(url: string) {
